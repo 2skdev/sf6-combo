@@ -2,7 +2,8 @@ import { auth } from '@/firebase'
 import AboutView from '@/views/AboutView.vue'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
-import SignupView from '@/views/SignupView.vue'
+import RegisterView from '@/views/RegisterView.vue'
+import { onAuthStateChanged } from 'firebase/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -18,8 +19,8 @@ const routes = [
     },
   },
   {
-    path: '/signup',
-    component: SignupView,
+    path: '/register',
+    component: RegisterView,
     meta: {
       requireAuth: false,
     },
@@ -38,8 +39,13 @@ const router = createRouter({
   routes: routes,
 })
 
-router.beforeEach((to, from, next) => {
-  const user = auth.currentUser
+router.beforeEach(async (to, from, next) => {
+  const user = await new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      resolve(user)
+      unsubscribe()
+    })
+  })
 
   if (to.meta.requireAuth === true && !user) {
     next('/login')
