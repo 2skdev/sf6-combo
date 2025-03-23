@@ -6,25 +6,26 @@ import {
   signOut,
   type User,
 } from 'firebase/auth'
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 export function useAuth() {
-  const user = ref<User | null>()
   const error = ref<string | null>()
+  const user = ref<User | null>()
   const loading = ref(true)
 
-  const setupListener = () => {
-    return onAuthStateChanged(auth, (authUser) => {
+  onMounted(() => {
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       user.value = authUser
       loading.value = false
     })
-  }
+    onUnmounted(unsubscribe)
+  })
 
   const register = async (email: string, password: string) => {
+    error.value = null
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       user.value = userCredential.user
-      error.value = null
     } catch (e) {
       console.error(e)
       error.value = e instanceof Error ? e.message : 'Unknown error occurred'
@@ -32,10 +33,10 @@ export function useAuth() {
   }
 
   const login = async (email: string, password: string) => {
+    error.value = null
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       user.value = userCredential.user
-      error.value = null
     } catch (e) {
       console.error(e)
       error.value = e instanceof Error ? e.message : 'Unknown error occurred'
@@ -43,15 +44,26 @@ export function useAuth() {
   }
 
   const logout = async () => {
+    error.value = null
     try {
       await signOut(auth)
       user.value = null
-      error.value = null
     } catch (e) {
       console.error(e)
       error.value = e instanceof Error ? e.message : 'Unknown error occurred'
     }
   }
 
-  return { user, error, loading, setupListener, register, login, logout }
+  const withdraw = async () => {
+    error.value = null
+    try {
+      await auth.currentUser?.delete()
+      user.value = null
+    } catch (e) {
+      console.error(e)
+      error.value = e instanceof Error ? e.message : 'Unknown error occurred'
+    }
+  }
+
+  return { error, user, loading, register, login, logout, withdraw }
 }

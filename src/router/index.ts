@@ -1,15 +1,33 @@
 import { auth } from '@/firebase'
 import AboutView from '@/views/AboutView.vue'
+import AdminCharacterView from '@/views/AdminCharacterView.vue'
+import ComboView from '@/views/ComboView.vue'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
+import SettingView from '@/views/SettingView.vue'
 import { onAuthStateChanged } from 'firebase/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
+    path: '/admin/character',
+    component: AdminCharacterView,
+    meta: {
+      requireAuth: true,
+    },
+  },
+  {
     path: '/',
     component: HomeView,
+  },
+  {
+    path: '/about',
+    component: AboutView,
+  },
+  {
+    path: '/:userId/:characterId',
+    component: ComboView,
   },
   {
     path: '/login',
@@ -26,8 +44,8 @@ const routes = [
     },
   },
   {
-    path: '/about',
-    component: AboutView,
+    path: '/setting',
+    component: SettingView,
     meta: {
       requireAuth: true,
     },

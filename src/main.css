@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+@plugin 'daisyui';
+
+@theme {
+  --font-zen-maru: 'Zen Maru Gothic', sans-serif;
+}
+
+* {
+  @apply font-zen-maru;
+}

@@ -1,46 +1,26 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
-import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { RouterView } from 'vue-router'
+import FooterComponent from './components/FooterComponent.vue'
+import HeaderComponent from './components/HeaderComponent.vue'
 import { useAuth } from './composables/useAuth'
 
-const router = useRouter()
+const { loading } = useAuth()
 
-const { setupListener, logout, user, error, loading } = useAuth()
-
-const handleLogout = async () => {
-  await logout()
-  if (!error.value) {
-    router.push('/login')
-  }
-}
-
-onMounted(() => {
-  const unsubscribe = setupListener()
-  onUnmounted(unsubscribe)
-})
 </script>
 
 <template>
-  <header>
-    <div class="container mx-auto bg-red-500">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
 
-  <body class="container mx-auto">
-    <div v-if="loading">
-      <span class="loading loading-ring loading-xl"></span>
-    </div>
+  <body v-if="loading" class="w-screen h-screen flex items-center justify-center">
+    <span class="loading loading-ring loading-xl"></span>
+  </body>
 
-    <div v-else>
+  <body v-else class="min-h-screen flex flex-col">
+    <HeaderComponent />
+
+    <main class="container mx-auto p-4 flex-1">
       <RouterView />
+    </main>
 
-      <button @click="handleLogout" class="btn">logout</button>
-
-      <div>{{ user }}</div>
-    </div>
+    <FooterComponent />
   </body>
 </template>
