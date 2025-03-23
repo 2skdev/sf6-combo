@@ -65,5 +65,16 @@ export function useAuth() {
     }
   }
 
-  return { error, user, loading, register, login, logout, withdraw }
+  const getCustomClaims = async () => {
+    error.value = null
+    try {
+      const idTokenResult = await auth.currentUser?.getIdTokenResult()
+      return idTokenResult?.claims
+    } catch (e) {
+      console.error(e)
+      error.value = e instanceof Error ? e.message : 'Unknown error occurred'
+    }
+  }
+
+  return { error, user, loading, register, login, logout, withdraw, getCustomClaims }
 }

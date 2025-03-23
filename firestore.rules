@@ -2,6 +2,16 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    match /character/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == 1
+    }
+
+    match /user/{userId}/combo/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+  
     match /{document=**} {
       allow read, write: if false;
     }
