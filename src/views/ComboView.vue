@@ -4,7 +4,7 @@ import { useCharacter } from '@/composables/useCharacter'
 import { useCombo } from '@/composables/useCombo'
 import type { Character } from '@/types/character'
 import type { Combo } from '@/types/combo'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -18,11 +18,17 @@ const characterId = Array.isArray(route.params.characterId)
 
 const character = ref<Character | null>(null)
 const comboList = ref<Combo[]>([])
-const listSort = ref<null | 'name' | 'inputs'>(null)
+const listSort = ref<null | 'name' | 'inputs'>(
+  localStorage.getItem('combo-sort') as null | 'name' | 'inputs',
+)
 
 onMounted(async () => {
   character.value = await getCharacterById(characterId)
   comboList.value = (await getComboList(userId, characterId)) ?? []
+})
+
+watch(listSort, (value) => {
+  localStorage.setItem('combo-sort', value ?? '')
 })
 
 const getSortedComboList = (): Combo[] => {
