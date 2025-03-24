@@ -77,7 +77,7 @@ const handleDeleteCombo = async (combo: Combo) => {
               class="m-px"
             />
           </p>
-          <div class="opacity-60">{{ combo.memo }}</div>
+          <div class="opacity-60 whitespace-pre-wrap">{{ combo.memo }}</div>
         </div>
 
         <div class="ml-auto dropdown dropdown-end">
