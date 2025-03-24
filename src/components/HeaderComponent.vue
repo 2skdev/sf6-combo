@@ -52,29 +52,24 @@ onMounted(async () => {
     </label>
 
     <div v-if="user" class="size-6">
-      <button
-        v-if="user"
-        class="cursor-pointer"
-        popovertarget="popover-menu"
-        style="anchor-name: --anchor-1"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6 fill-current">
-          <path
-            d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"
-          />
-        </svg>
-      </button>
-      <ul
-        class="dropdown dropdown-end menu w-48 mt-2 rounded-box bg-base-200 shadow-sm"
-        popover
-        id="popover-menu"
-        style="position-anchor: --anchor-1"
-      >
-        <li>
-          <RouterLink to="/setting">設定</RouterLink>
-        </li>
-        <li><a @click="handleLogout">ログアウト</a></li>
-      </ul>
+      <div class="ml-auto dropdown dropdown-end">
+        <div tabindex="0" role="button" class="cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6 fill-current">
+            <path
+              d="M4.5 17.27q-.213 0-.356-.145T4 16.768t.144-.356t.356-.143h15q.213 0 .356.144q.144.144.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.144T4 11.999t.144-.356t.356-.143h15q.213 0 .356.144t.144.357t-.144.356t-.356.143zm0-4.77q-.213 0-.356-.143Q4 7.443 4 7.23t.144-.356t.356-.143h15q.213 0 .356.144T20 7.23t-.144.356t-.356.144z"
+            />
+          </svg>
+        </div>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 p-2 shadow-sm"
+        >
+          <li>
+            <RouterLink to="/setting">設定</RouterLink>
+          </li>
+          <li><a @click="handleLogout">ログアウト</a></li>
+        </ul>
+      </div>
     </div>
     <RouterLink v-else to="/login" class="btn font-normal">ログイン</RouterLink>
   </header>

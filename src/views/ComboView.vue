@@ -58,28 +58,22 @@ const handleDeleteCombo = async (combo: Combo) => {
           <div class="opacity-60">{{ combo.memo }}</div>
         </div>
 
-        <button
-          class="btn btn-square btn-ghost ml-auto"
-          popovertarget="popover-command-list"
-          style="anchor-name: --anchor-1"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6 fill-current">
-            <path
-              d="M6.462 13q-.413 0-.707-.294T5.462 12t.293-.706t.707-.294t.706.294t.293.706t-.293.706T6.46 13M12 13q-.413 0-.706-.294T11 12t.294-.706T12 11t.706.294T13 12t-.294.706T12 13m5.539 0q-.413 0-.707-.294T16.538 12t.294-.706t.706-.294t.707.294t.293.706t-.293.706t-.707.294"
-            />
-          </svg>
-        </button>
-        <ul
-          class="dropdown dropdown-end menu w-48 mt-2 rounded-box bg-base-200 shadow-sm"
-          popover
-          id="popover-command-list"
-          style="position-anchor: --anchor-1"
-        >
-          <li>
-            <RouterLink :to="`/${userId}/${characterId}/${combo.id}`">編集</RouterLink>
-            <button @click="handleDeleteCombo(combo)" class="text-error">削除</button>
-          </li>
-        </ul>
+        <div class="ml-auto dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-square btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6 fill-current">
+              <path
+                d="M6.462 13q-.413 0-.707-.294T5.462 12t.293-.706t.707-.294t.706.294t.293.706t-.293.706T6.46 13M12 13q-.413 0-.706-.294T11 12t.294-.706T12 11t.706.294T13 12t-.294.706T12 13m5.539 0q-.413 0-.707-.294T16.538 12t.294-.706t.706-.294t.707.294t.293.706t-.293.706t-.707.294"
+              />
+            </svg>
+          </div>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 p-2 shadow-sm"
+          >
+            <li><RouterLink :to="`/${userId}/${characterId}/${combo.id}`">編集</RouterLink></li>
+            <li><button @click="handleDeleteCombo(combo)" class="text-error">削除</button></li>
+          </ul>
+        </div>
       </li>
     </ul>
   </div>
