@@ -18,8 +18,8 @@ const characterId = Array.isArray(route.params.characterId)
 
 const character = ref<Character | null>(null)
 const comboList = ref<Combo[]>([])
-const listSort = ref<null | 'name' | 'inputs'>(
-  localStorage.getItem('combo-sort') as null | 'name' | 'inputs',
+const listSort = ref<'update' | 'name' | 'inputs'>(
+  (localStorage.getItem('combo-sort') ?? 'update') as 'update' | 'name' | 'inputs',
 )
 
 onMounted(async () => {
@@ -32,10 +32,12 @@ watch(listSort, (value) => {
 })
 
 const getSortedComboList = (): Combo[] => {
-  if (!listSort.value) {
+  if (listSort.value === 'update') {
     return comboList.value
   } else {
-    return [...comboList.value].sort((a, b) => a[listSort.value!].localeCompare(b[listSort.value!]))
+    return [...comboList.value].sort((a, b) =>
+      a[listSort.value as 'name' | 'inputs'].localeCompare(b[listSort.value as 'name' | 'inputs']),
+    )
   }
 }
 
@@ -59,8 +61,7 @@ const handleDeleteCombo = async (combo: Combo) => {
     </div>
 
     <select class="select select-sm mt-6 w-32" v-model="listSort">
-      <option disabled selected>並び順</option>
-      <option :value="null">追加順</option>
+      <option selected value="update">追加順</option>
       <option value="name">名前順</option>
       <option value="inputs">コマンド</option>
     </select>
