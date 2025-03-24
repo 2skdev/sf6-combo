@@ -22,7 +22,6 @@ const comboList = ref<Combo[]>([])
 onMounted(async () => {
   character.value = await getCharacterById(characterId)
   comboList.value = (await getComboList(userId, characterId)) ?? []
-  console.log(comboList.value)
 })
 
 const handleDeleteCombo = async (combo: Combo) => {
