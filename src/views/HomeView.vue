@@ -7,8 +7,8 @@ const { user } = useAuth()
 </script>
 
 <template>
-  <div class="font-bold mb-8">お気に入り</div>
-  <div class="font-bold mb-8">キャラクター一覧</div>
+  <div class="text-lg font-bold mb-4">キャラクター一覧</div>
+
   <div class="relative grid grid-cols-4 gap-4">
     <RouterLink
       :to="`/${user?.uid ?? 'unknown'}/${character.id}`"

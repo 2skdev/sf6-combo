@@ -40,7 +40,7 @@ const handleDeleteCombo = async (combo: Combo) => {
       <img :src="character.base64" class="w-16 mask mask-squircle bg-base-200" />
       <div class="ml-4 text-xl font-bold">{{ character.name }}</div>
       <RouterLink :to="`/${userId}/${characterId}/new`" class="ml-auto btn btn-primary"
-        >追加</RouterLink
+        >コンボを追加</RouterLink
       >
     </div>
 
@@ -49,7 +49,12 @@ const handleDeleteCombo = async (combo: Combo) => {
         <div>
           <div class="font-bold">{{ combo.name }}</div>
           <p class="list-col-wrap mt-2">
-            <CommandComponent input="lp" class="m-px" />
+            <CommandComponent
+              v-for="(input, index) in combo.inputs.trim().split(' ')"
+              :key="index"
+              :input="input"
+              class="m-px"
+            />
           </p>
           <div class="opacity-60">{{ combo.memo }}</div>
         </div>

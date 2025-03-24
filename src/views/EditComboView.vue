@@ -131,13 +131,12 @@ onUnmounted(() => {
       <input v-model="combo.inputs" placeholder="コンボを入力" class="input input-borderd w-full" />
     </div>
     <div v-else class="input input-borderd w-full">
-      <div v-if="combo.inputs.length > 0" class="h-full flex items-center space-x-1">
-        <CommandComponent
-          v-for="(input, index) in combo?.inputs.trim().split(' ')"
-          :key="index"
-          :input="input"
-        />
-      </div>
+      <CommandComponent
+        v-for="(input, index) in combo.inputs.trim().split(' ')"
+        :key="index"
+        :input="input"
+        class="m-px"
+      />
     </div>
 
     <div class="flex flex-row space-x-4 justify-center mt-4">
