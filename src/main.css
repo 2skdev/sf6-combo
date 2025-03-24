@@ -78,8 +78,8 @@
 }
 
 input,
-textarea {
-  @apply focus:outline-none;
+textarea,
+select {
   @apply focus:outline-none;
 }
 

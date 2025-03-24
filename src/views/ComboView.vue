@@ -18,11 +18,20 @@ const characterId = Array.isArray(route.params.characterId)
 
 const character = ref<Character | null>(null)
 const comboList = ref<Combo[]>([])
+const listSort = ref<null | 'name' | 'inputs'>(null)
 
 onMounted(async () => {
   character.value = await getCharacterById(characterId)
   comboList.value = (await getComboList(userId, characterId)) ?? []
 })
+
+const getSortedComboList = (): Combo[] => {
+  if (!listSort.value) {
+    return comboList.value
+  } else {
+    return [...comboList.value].sort((a, b) => a[listSort.value!].localeCompare(b[listSort.value!]))
+  }
+}
 
 const handleDeleteCombo = async (combo: Combo) => {
   const ret = confirm(`${combo.name}を削除しますか？`)
@@ -43,8 +52,15 @@ const handleDeleteCombo = async (combo: Combo) => {
       >
     </div>
 
-    <ul class="list mt-4">
-      <li class="list-row px-0" v-for="combo in comboList" :key="combo.id">
+    <select class="select select-sm mt-6 w-32" v-model="listSort">
+      <option disabled selected>並び順</option>
+      <option :value="null">追加順</option>
+      <option value="name">名前順</option>
+      <option value="command">コマンド</option>
+    </select>
+
+    <ul class="list mt-2">
+      <li class="list-row px-0" v-for="combo in getSortedComboList()" :key="combo.id">
         <div>
           <div class="font-bold">{{ combo.name }}</div>
           <p class="list-col-wrap mt-2">
