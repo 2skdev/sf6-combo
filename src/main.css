@@ -1,6 +1,74 @@
 @import 'tailwindcss';
 @plugin 'daisyui';
 
+@plugin "daisyui/theme" {
+  name: 'dark';
+  default: true;
+  prefersdark: true;
+  --color-base-100: var(--color-gray-950);
+  --color-base-200: var(--color-gray-900);
+  --color-base-300: var(--color-gray-800);
+  --color-base-content: var(--color-gray-50);
+  --color-primary: var(--color-indigo-500);
+  --color-primary-content: var(--color-indigo-50);
+  --color-secondary: var(--color-pink-500);
+  --color-secondary-content: var(--color-pink-50);
+  --color-accent: var(--color-teal-400);
+  --color-accent-content: var(--color-teal-950);
+  --color-neutral: var(--color-gray-800);
+  --color-neutral-content: var(--color-gray-50);
+  --color-info: var(--color-sky-400);
+  --color-info-content: var(--color-sky-950);
+  --color-success: var(--color-emerald-400);
+  --color-success-content: var(--color-emerald-950);
+  --color-warning: var(--color-amber-400);
+  --color-warning-content: var(--color-amber-950);
+  --color-error: var(--color-rose-400);
+  --color-error-content: var(--color-rose-950);
+  --radius-selector: 2rem;
+  --radius-field: 2rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 0.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: 'light';
+  default: true;
+  prefersdark: false;
+  --color-base-100: var(--color-gray-50);
+  --color-base-200: var(--color-gray-100);
+  --color-base-300: var(--color-gray-200);
+  --color-base-content: var(--color-gray-950);
+  --color-primary: var(--color-indigo-600);
+  --color-primary-content: var(--color-indigo-50);
+  --color-secondary: var(--color-pink-600);
+  --color-secondary-content: var(--color-pink-50);
+  --color-accent: var(--color-teal-400);
+  --color-accent-content: var(--color-teal-950);
+  --color-neutral: var(--color-gray-800);
+  --color-neutral-content: var(--color-gray-50);
+  --color-info: var(--color-sky-400);
+  --color-info-content: var(--color-sky-950);
+  --color-success: var(--color-emerald-400);
+  --color-success-content: var(--color-emerald-950);
+  --color-warning: var(--color-amber-400);
+  --color-warning-content: var(--color-amber-950);
+  --color-error: var(--color-rose-400);
+  --color-error-content: var(--color-rose-950);
+  --radius-selector: 2rem;
+  --radius-field: 2rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 0.5px;
+  --depth: 1;
+  --noise: 0;
+}
+
 @theme {
   --font-zen-maru: 'Zen Maru Gothic', sans-serif;
 }

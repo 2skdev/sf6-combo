@@ -23,7 +23,7 @@ onMounted(async () => {
 <template>
   <div v-if="character">
     <div class="font-bold mb-4">{{ character.name }}</div>
-    <img :src="character.base64" class="w-48 rounded-full outline-4 outline-base-200 bg-base-300" />
+    <img :src="character.base64" class="w-48 mask mask-squircle bg-base-200" />
 
     <div class="font-bold mt-8 mb-4">コンボ</div>
 

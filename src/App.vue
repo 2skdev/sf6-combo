@@ -5,22 +5,21 @@ import HeaderComponent from './components/HeaderComponent.vue'
 import { useAuth } from './composables/useAuth'
 
 const { loading } = useAuth()
-
 </script>
 
 <template>
 
-  <body v-if="loading" class="w-screen h-screen flex items-center justify-center">
+  <div v-if="loading" class="w-screen h-screen flex items-center justify-center">
     <span class="loading loading-ring loading-xl"></span>
-  </body>
+  </div>
 
-  <body v-else class="min-h-screen flex flex-col">
+  <div v-else class="min-h-screen flex flex-col">
     <HeaderComponent />
 
-    <main class="container mx-auto p-4 flex-1">
+    <main class="container mx-auto p-4 flex-1 mt-16">
       <RouterView />
     </main>
 
     <FooterComponent />
-  </body>
+  </div>
 </template>
