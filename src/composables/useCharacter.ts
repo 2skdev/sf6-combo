@@ -32,7 +32,8 @@ export function useCharacter() {
   onMounted(async () => {
     error.value = null
     try {
-      const snapshot = await getDocs(collection(db, 'character').withConverter(characterConverter))
+      const ref = collection(db, 'character').withConverter(characterConverter)
+      const snapshot = await getDocs(ref)
       characters.value = snapshot.docs.map((doc) => doc.data())
     } catch (e) {
       console.error(e)
@@ -40,18 +41,19 @@ export function useCharacter() {
     }
   })
 
-  const getCharacterById = async (id: string): Promise<Character | undefined> => {
+  const getCharacterById = async (id: string): Promise<Character | null> => {
     error.value = null
     try {
       const ref = doc(db, 'character', id).withConverter(characterConverter)
-      return (await getDoc(ref)).data()
+      return (await getDoc(ref)).data() ?? null
     } catch (e) {
       console.error(e)
       error.value = e instanceof Error ? e.message : 'Unknown error occurred'
+      return null
     }
   }
 
-  const setCharacter = async (data: Character) => {
+  const upsertCharacter = async (data: Character) => {
     error.value = null
     try {
       const ref = doc(db, 'character', data.id).withConverter(characterConverter)
@@ -62,5 +64,5 @@ export function useCharacter() {
     }
   }
 
-  return { error, characters, getCharacterById, setCharacter }
+  return { error, characters, getCharacterById, upsertCharacter }
 }

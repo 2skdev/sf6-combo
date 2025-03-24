@@ -1,46 +1,55 @@
 [
   {
-    "key": "7",
-    "name": "後ろジャンプ"
+    "input": "7",
+    "name": "後ろジャンプ",
+    "shortcut": "q"
   },
   {
-    "key": "8",
-    "name": "ジャンプ"
+    "input": "8",
+    "name": "ジャンプ",
+    "shortcut": "w"
   },
   {
-    "key": "9",
-    "name": "前ジャンプ"
+    "input": "9",
+    "name": "前ジャンプ",
+    "shortcut": "e"
   },
   {
-    "key": "4",
-    "name": "後ろ"
+    "input": "4",
+    "name": "後ろ",
+    "shortcut": "a"
   },
   {
-    "key": "5",
-    "name": "立ち"
+    "input": "5",
+    "name": "立ち",
+    "shortcut": "s"
   },
   {
-    "key": "6",
-    "name": "前"
+    "input": "6",
+    "name": "前",
+    "shortcut": "d"
   },
   {
-    "key": "1",
-    "name": "後ろしゃがみ"
+    "input": "1",
+    "name": "後ろしゃがみ",
+    "shortcut": "z"
   },
   {
-    "key": "2",
-    "name": "しゃがみ"
+    "input": "2",
+    "name": "しゃがみ",
+    "shortcut": "x"
   },
   {
-    "key": "3",
-    "name": "前しゃがみ"
+    "input": "3",
+    "name": "前しゃがみ",
+    "shortcut": "c"
   },
   {
-    "key": "4c",
+    "input": "4c",
     "name": "後ろタメ"
   },
   {
-    "key": "2c",
+    "input": "2c",
     "name": "しゃがみタメ"
   }
 ]

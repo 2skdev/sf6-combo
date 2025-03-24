@@ -2,6 +2,7 @@ import { auth } from '@/firebase'
 import AboutView from '@/views/AboutView.vue'
 import AdminCharacterView from '@/views/AdminCharacterView.vue'
 import ComboView from '@/views/ComboView.vue'
+import EditComboView from '@/views/EditComboView.vue'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
@@ -29,6 +30,13 @@ const routes = [
   {
     path: '/:userId/:characterId',
     component: ComboView,
+    meta: {
+      requireAuth: true,
+    },
+  },
+  {
+    path: '/:userId/:characterId/:comboId',
+    component: EditComboView,
     meta: {
       requireAuth: true,
     },

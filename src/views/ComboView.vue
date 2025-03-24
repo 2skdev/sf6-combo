@@ -1,72 +1,82 @@
 <script setup lang="ts">
-import { useCharacter } from '@/composables/useCharacter';
-import { attackList, commonList, moveList } from '@/composables/useCombo';
-import type { Character } from '@/types/character';
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-
-type Tabs = 'text' | 'image'
+import CommandComponent from '@/components/CommandComponent.vue'
+import { useCharacter } from '@/composables/useCharacter'
+import { useCombo } from '@/composables/useCombo'
+import type { Character } from '@/types/character'
+import type { Combo } from '@/types/combo'
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const { getCharacterById } = useCharacter()
+const { getComboList, deleteCombo } = useCombo()
 
-const tab = ref<Tabs>('text')
+const userId = Array.isArray(route.params.userId) ? route.params.userId[0] : route.params.userId
+const characterId = Array.isArray(route.params.characterId)
+  ? route.params.characterId[0]
+  : route.params.characterId
 
 const character = ref<Character | null>(null)
-const combo = ref<string>('')
+const comboList = ref<Combo[]>([])
 
 onMounted(async () => {
-  character.value = await getCharacterById(Array.isArray(route.params.characterId) ? route.params.characterId[0] : route.params.characterId) ?? null
+  character.value = await getCharacterById(characterId)
+  comboList.value = (await getComboList(userId, characterId)) ?? []
+  console.log(comboList.value)
 })
 
-const getCommandImgPath = (key: string) => {
-  return new URL(`/src/assets/command/${key}.png`, import.meta.url).href;
+const handleDeleteCombo = async (combo: Combo) => {
+  const ret = confirm(`${combo.name}を削除しますか？`)
+  if (ret) {
+    deleteCombo(userId, characterId, combo.id)
+    comboList.value = (await getComboList(userId, characterId)) ?? []
+  }
 }
 </script>
 
 <template>
   <div v-if="character">
-    <div class="font-bold mb-4">{{ character.name }}</div>
-    <img :src="character.base64" class="w-48 mask mask-squircle bg-base-200" />
-
-    <div class="font-bold mt-8 mb-4">コンボ</div>
-
-    <div role="tablist" class="tabs tabs-border mb-4">
-      <a role="tab" @click="tab = 'text'" class="tab" :class="{ 'tab-active': tab === 'text' }">テキスト</a>
-      <a role="tab" @click="tab = 'image'" class="tab" :class="{ 'tab-active': tab === 'image' }">画像</a>
+    <div class="flex items-center">
+      <img :src="character.base64" class="w-16 mask mask-squircle bg-base-200" />
+      <div class="ml-4 text-xl font-bold">{{ character.name }}</div>
+      <RouterLink :to="`/${userId}/${characterId}/new`" class="ml-auto btn btn-primary"
+        >追加</RouterLink
+      >
     </div>
 
-    <div v-if="tab === 'text'">
-      <input v-model="combo" placeholder="コンボを入力" class="input input-borderd w-full" />
-    </div>
-    <div v-else class="input input-borderd w-full">
-      <div v-if="combo.length > 0" class="h-full flex items-center space-x-1">
-        <img v-for="key in combo?.trim().split(' ')" :key="key" :src="getCommandImgPath(key)"
-          class="h-5 aspect-square object-contain pointer-events-none select-none" />
-      </div>
-    </div>
+    <ul class="list mt-4">
+      <li class="list-row px-0" v-for="combo in comboList" :key="combo.id">
+        <div>
+          <div class="font-bold">{{ combo.name }}</div>
+          <p class="list-col-wrap mt-2">
+            <CommandComponent input="lp" class="m-px" />
+          </p>
+          <div class="opacity-60">{{ combo.memo }}</div>
+        </div>
 
-    <div class="flex flex-row space-x-4 justify-center">
-      <div class="grid grid-cols-3 gap-4">
-        <button v-for="move in moveList" :key="move.key" @click="combo += `${move.key} `" class="btn btn-square">
-          <img :src="getCommandImgPath(move.key)" class="object-contain p-2 pointer-events-none select-none" />
+        <button
+          class="btn btn-square btn-ghost ml-auto"
+          popovertarget="popover-command-list"
+          style="anchor-name: --anchor-1"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6 fill-current">
+            <path
+              d="M6.462 13q-.413 0-.707-.294T5.462 12t.293-.706t.707-.294t.706.294t.293.706t-.293.706T6.46 13M12 13q-.413 0-.706-.294T11 12t.294-.706T12 11t.706.294T13 12t-.294.706T12 13m5.539 0q-.413 0-.707-.294T16.538 12t.294-.706t.706-.294t.707.294t.293.706t-.293.706t-.707.294"
+            />
+          </svg>
         </button>
-      </div>
-
-      <div class="grid grid-cols-4 gap-4">
-        <button v-for="attack in attackList" :key="attack.key" @click="combo += `${attack.key} `"
-          class="btn btn-square">
-          <img :src="getCommandImgPath(attack.key)" class="object-contain p-2 pointer-events-none select-none" />
-        </button>
-      </div>
-
-
-      <div class="grid grid-cols-3 gap-4">
-        <button v-for="common in commonList" :key="common.key" @click="combo += `${common.key} `"
-          class="btn btn-square">
-          <img :src="getCommandImgPath(common.key)" class="object-contain p-2 pointer-events-none select-none" />
-        </button>
-      </div>
-    </div>
+        <ul
+          class="dropdown dropdown-end menu w-48 mt-2 rounded-box bg-base-200 shadow-sm"
+          popover
+          id="popover-command-list"
+          style="position-anchor: --anchor-1"
+        >
+          <li>
+            <RouterLink :to="`/${userId}/${characterId}/${combo.id}`">編集</RouterLink>
+            <button @click="handleDeleteCombo(combo)" class="text-error">削除</button>
+          </li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </template>

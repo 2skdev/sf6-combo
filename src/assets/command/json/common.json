@@ -1,14 +1,17 @@
 [
   {
-    "key": "+",
-    "name": "同時入力"
+    "input": "+",
+    "name": "同時入力",
+    "shortcut": "+"
   },
   {
-    "key": ">",
-    "name": "連続入力"
+    "input": ">",
+    "name": "連続入力",
+    "shortcut": ">"
   },
   {
-    "key": "|",
-    "name": "選択"
+    "input": "|",
+    "name": "選択",
+    "shortcut": "|"
   }
 ]

@@ -1,66 +1,78 @@
 [
   {
-    "key": "lp",
-    "name": "弱パンチ"
+    "input": "lp",
+    "name": "弱パンチ",
+    "shortcut": "u"
   },
   {
-    "key": "mp",
-    "name": "中パンチ"
+    "input": "mp",
+    "name": "中パンチ",
+    "shortcut": "i"
   },
   {
-    "key": "hp",
-    "name": "強パンチ"
+    "input": "hp",
+    "name": "強パンチ",
+    "shortcut": "o"
   },
   {
-    "key": "p",
-    "name": "パンチ"
+    "input": "p",
+    "name": "パンチ",
+    "shortcut": ""
   },
   {
-    "key": "lk",
-    "name": "弱キック"
+    "input": "lk",
+    "name": "弱キック",
+    "shortcut": "j"
   },
   {
-    "key": "mk",
-    "name": "中キック"
+    "input": "mk",
+    "name": "中キック",
+    "shortcut": "k"
   },
   {
-    "key": "hk",
-    "name": "強キック"
+    "input": "hk",
+    "name": "強キック",
+    "shortcut": "l"
   },
   {
-    "key": "k",
-    "name": "キック"
+    "input": "k",
+    "name": "キック",
+    "shortcut": ""
   },
   {
-    "key": "ml",
-    "name": "モダン弱"
+    "input": "ml",
+    "name": "モダン弱",
+    "shortcut": "b"
   },
   {
-    "key": "mm",
-    "name": "モダン中"
+    "input": "mm",
+    "name": "モダン中",
+    "shortcut": "n"
   },
   {
-    "key": "mh",
-    "name": "モダン強"
+    "input": "mh",
+    "name": "モダン強",
+    "shortcut": "m"
   },
   {
-    "key": "ma",
-    "name": "モダン攻撃"
+    "input": "ma",
+    "name": "モダン攻撃",
+    "shortcut": ""
   },
   {
-    "key": "th",
+    "input": "th",
     "name": "掴み"
   },
   {
-    "key": "di",
+    "input": "di",
     "name": "ドライブインパクト"
   },
   {
-    "key": "sp",
+    "input": "sp",
     "name": "スペシャル"
   },
   {
-    "key": "at",
+    "input": "at",
     "name": "オート"
   }
 ]

@@ -8,7 +8,6 @@ const { loading } = useAuth()
 </script>
 
 <template>
-
   <div v-if="loading" class="w-screen h-screen flex items-center justify-center">
     <span class="loading loading-ring loading-xl"></span>
   </div>
