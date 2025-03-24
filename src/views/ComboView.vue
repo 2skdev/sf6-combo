@@ -56,7 +56,7 @@ const handleDeleteCombo = async (combo: Combo) => {
       <option disabled selected>並び順</option>
       <option :value="null">追加順</option>
       <option value="name">名前順</option>
-      <option value="command">コマンド</option>
+      <option value="inputs">コマンド</option>
     </select>
 
     <ul class="list mt-2">
