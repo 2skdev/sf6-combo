@@ -76,3 +76,7 @@
 * {
   @apply font-zen-maru;
 }
+
+input {
+  @apply focus:outline-none;
+}

@@ -15,6 +15,7 @@ const routes = [
     component: AdminCharacterView,
     meta: {
       requireAuth: true,
+      requireAdmin: true, // TODO: impl
     },
   },
   {
@@ -28,6 +29,9 @@ const routes = [
   {
     path: '/:userId/:characterId',
     component: ComboView,
+    meta: {
+      requireAuth: true,
+    },
   },
   {
     path: '/login',
