@@ -53,11 +53,14 @@ const handleDeleteCombo = async (combo: Combo) => {
 }
 
 const playYouTube = (url: string, start: string) => {
-  const id = url.match(/v=([^&]+)/)[1]
+  const id = url.match(/v=([^&]+)/)
   const [min, sec] = start.split(':').map(Number)
 
-  youtubeUrl.value = `https://www.youtube.com/embed/${id}?start=${min * 60 + sec}&autoplay=1`
-  console.log(id)
+  if (!id) {
+    return
+  }
+
+  youtubeUrl.value = `https://www.youtube.com/embed/${id[1]}?start=${min * 60 + sec}&autoplay=1`
   modalComponent?.value.open()
 }
 </script>
