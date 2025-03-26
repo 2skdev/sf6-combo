@@ -125,6 +125,18 @@ onUnmounted(() => {
   </fieldset>
 
   <fieldset class="fieldset">
+    <legend class="fieldset-legend">YouTube</legend>
+    <input type="text" v-model="combo.youtubeUrl" placeholder="URL" class="input w-full" />
+    <input
+      type="text"
+      v-model="combo.youtubeStart"
+      placeholder="再生位置(XX:XX)"
+      class="input w-full validator"
+      pattern="(\d{2}):(\d{2})"
+    />
+  </fieldset>
+
+  <fieldset class="fieldset">
     <legend class="fieldset-legend">コンボ</legend>
 
     <div class="flex space-x-4 my-2">

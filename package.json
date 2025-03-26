@@ -15,7 +15,7 @@
   "dependencies": {
     "@kouts/vue-modal": "^5.0.1",
     "@tailwindcss/vite": "^4.0.15",
-    "@types/vue-cropperjs": "^4.1.6",
+    "@types/vue-cropperjs": "^4.1.0",
     "compressorjs": "^1.2.1",
     "daisyui": "^5.0.9",
     "firebase": "^11.5.0",

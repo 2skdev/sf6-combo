@@ -8,6 +8,8 @@ export type ComboDoc = {
   name: string
   inputs: string
   memo: string
+  youtubeUrl?: string
+  youtubeStart?: string
   damage?: number
   hits?: number
 }

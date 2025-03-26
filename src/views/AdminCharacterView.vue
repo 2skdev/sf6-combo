@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ToastComponent from '@/components/ToastComponent.vue'
+import ModalComponent from '@/components/ModalComponent.vue'
 import { useCharacter } from '@/composables/useCharacter'
 import type { Character } from '@/types/character'
 import Compressor from 'compressorjs'
@@ -16,10 +17,10 @@ const selectedCharacter = ref<Character | null>()
 
 // ref
 const tab = ref<Tabs>('update')
-const modalOpen = ref(false)
 const tempImage = ref<string>('')
 const cropper = ref<VueCropperMethods>()
 const toastComponent = ref()
+const modalComponent = ref()
 
 // func
 const blobToBase64 = async (blob: Blob): Promise<string> => {
@@ -41,7 +42,7 @@ const uploadImage = async (e: Event) => {
 
   if (file) {
     tempImage.value = await blobToBase64(file)
-    modalOpen.value = true
+    modalComponent?.value.open()
   }
 }
 
@@ -57,7 +58,7 @@ const cropImage = () => {
           success: async (blob: Blob) => {
             if (selectedCharacter.value) {
               selectedCharacter.value.base64 = await blobToBase64(blob)
-              modalOpen.value = false
+              modalComponent?.value.close()
             }
           },
           error: (e) => {
@@ -142,18 +143,6 @@ const handleUpsertCharacter = async () => {
         <input type="file" accept="image/*" @change="uploadImage" class="file-input w-96" />
       </fieldset>
 
-      <Teleport to="body" v-if="modalOpen">
-        <div class="fixed z-50 inset-0 top-0 left-0 bg-black/25 flex items-center justify-center">
-          <div class="flex flex-col items-center bg-base-100 p-8 rounded-box">
-            <vue-cropper ref="cropper" :src="tempImage" :aspectRatio="1" class="size-[80dvw]" />
-            <div class="w-full mt-4 flex items-center space-x-4">
-              <button @click="cropImage" class="btn btn-primary">保存</button>
-              <button @click="modalOpen = false" class="btn btn-ghost">キャンセル</button>
-            </div>
-          </div>
-        </div>
-      </Teleport>
-
       <div class="divider"></div>
 
       <div class="space-x-4 border-base-200">
@@ -162,6 +151,14 @@ const handleUpsertCharacter = async () => {
       </div>
     </div>
   </div>
+
+  <ModalComponent ref="modalComponent">
+    <vue-cropper ref="cropper" :src="tempImage" :aspectRatio="1" class="size-[80dvw]" />
+    <div class="w-full mt-4 flex items-center space-x-4">
+      <button @click="cropImage" class="btn btn-primary">保存</button>
+      <button @click="modalComponent?.close()" class="btn btn-ghost">キャンセル</button>
+    </div>
+  </ModalComponent>
 
   <ToastComponent ref="toastComponent" />
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CommandComponent from '@/components/CommandComponent.vue'
+import ModalComponent from '@/components/ModalComponent.vue'
 import { useCharacter } from '@/composables/useCharacter'
 import { useCombo } from '@/composables/useCombo'
 import type { Character } from '@/types/character'
@@ -21,6 +22,8 @@ const comboList = ref<Combo[]>([])
 const listSort = ref<'update' | 'name' | 'inputs'>(
   (localStorage.getItem('combo-sort') ?? 'update') as 'update' | 'name' | 'inputs',
 )
+const modalComponent = ref()
+const youtubeUrl = ref<string>('dQw4w9WgXcQ')
 
 onMounted(async () => {
   character.value = await getCharacterById(characterId)
@@ -48,6 +51,15 @@ const handleDeleteCombo = async (combo: Combo) => {
     comboList.value = (await getComboList(userId, characterId)) ?? []
   }
 }
+
+const playYouTube = (url: string, start: string) => {
+  const id = url.match(/v=([^&]+)/)[1]
+  const [min, sec] = start.split(':').map(Number)
+
+  youtubeUrl.value = `https://www.youtube.com/embed/${id}?start=${min * 60 + sec}&autoplay=1`
+  console.log(id)
+  modalComponent?.value.open()
+}
 </script>
 
 <template>
@@ -55,9 +67,9 @@ const handleDeleteCombo = async (combo: Combo) => {
     <div class="flex items-center">
       <img :src="character.base64" class="w-16 mask mask-squircle bg-base-200" />
       <div class="ml-4 text-xl font-bold">{{ character.name }}</div>
-      <RouterLink :to="`/${userId}/${characterId}/new`" class="ml-auto btn btn-primary"
-        >コンボを追加</RouterLink
-      >
+      <RouterLink :to="`/${userId}/${characterId}/new`" class="ml-auto btn btn-primary">
+        コンボを追加
+      </RouterLink>
     </div>
 
     <select class="select select-sm mt-6 w-32" v-model="listSort">
@@ -81,23 +93,46 @@ const handleDeleteCombo = async (combo: Combo) => {
           <div class="opacity-60 whitespace-pre-wrap">{{ combo.memo }}</div>
         </div>
 
-        <div class="ml-auto dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-square btn-ghost">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6 fill-current">
-              <path
-                d="M6.462 13q-.413 0-.707-.294T5.462 12t.293-.706t.707-.294t.706.294t.293.706t-.293.706T6.46 13M12 13q-.413 0-.706-.294T11 12t.294-.706T12 11t.706.294T13 12t-.294.706T12 13m5.539 0q-.413 0-.707-.294T16.538 12t.294-.706t.706-.294t.707.294t.293.706t-.293.706t-.707.294"
-              />
-            </svg>
-          </div>
-          <ul
-            tabindex="0"
-            class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 p-2 shadow-sm"
+        <div class="ml-auto flex items-top">
+          <button
+            v-if="combo.youtubeUrl && combo.youtubeUrl !== ''"
+            @click="playYouTube(combo.youtubeUrl, combo.youtubeStart ?? '00:00')"
+            class="btn btn-square btn-ghost"
           >
-            <li><RouterLink :to="`/${userId}/${characterId}/${combo.id}`">編集</RouterLink></li>
-            <li><button @click="handleDeleteCombo(combo)" class="text-error">削除</button></li>
-          </ul>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-6 fill-current">
+              <path d="M18.4 12.5L9 18.38L8 19V6zm-1.9 0L9 7.8v9.4z" />
+            </svg>
+          </button>
+
+          <div class="dropdown dropdown-end">
+            <button tabindex="0" role="button" class="btn btn-square btn-ghost">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="size-6 fill-current"
+              >
+                <path
+                  d="M6.462 13q-.413 0-.707-.294T5.462 12t.293-.706t.707-.294t.706.294t.293.706t-.293.706T6.46 13M12 13q-.413 0-.706-.294T11 12t.294-.706T12 11t.706.294T13 12t-.294.706T12 13m5.539 0q-.413 0-.707-.294T16.538 12t.294-.706t.706-.294t.707.294t.293.706t-.293.706t-.707.294"
+                />
+              </svg>
+            </button>
+            <ul
+              tabindex="0"
+              class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 p-2 shadow-sm"
+            >
+              <li><RouterLink :to="`/${userId}/${characterId}/${combo.id}`">編集</RouterLink></li>
+              <li><button @click="handleDeleteCombo(combo)" class="text-error">削除</button></li>
+            </ul>
+          </div>
         </div>
       </li>
     </ul>
+
+    <ModalComponent ref="modalComponent">
+      <iframe width="560" height="315" :src="youtubeUrl" frameborder="0" allowfullscreen></iframe>
+      <div class="divider"></div>
+
+      <button @click="modalComponent?.close()" class="btn btn-primary">閉じる</button>
+    </ModalComponent>
   </div>
 </template>
